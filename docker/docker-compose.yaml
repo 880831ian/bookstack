@@ -1,0 +1,39 @@
+version: "3.8"
+services:
+  bookstack:
+    image: lscr.io/linuxserver/bookstack
+    container_name: bookstack
+    environment:
+      - PUID=<<更換此處>>
+      - PGID=<<更換此處>>
+      - DB_HOST=bookstack_db
+      - DB_PORT=3306
+      - DB_USER=bookstack
+      - DB_PASS=bookstack
+      - DB_DATABASE=bookstackapp
+      - APP_LANG=zh_TW
+      - APP_TIMEZONE=Asia/Taipei
+      - APP_URL=<<更換此處>>
+      - GOOGLE_APP_ID=<<更換此處>>
+      - GOOGLE_APP_SECRET=<<更換此處>>
+    volumes:
+      - /bookstack/config:/config
+    ports:
+      - 80:80
+    restart: unless-stopped
+    depends_on:
+      - bookstack_db
+  bookstack_db:
+    image: lscr.io/linuxserver/mariadb
+    container_name: bookstack_db
+    environment:
+      - PUID=<<更換此處>>
+      - PGID=<<更換此處>>
+      - MYSQL_ROOT_PASSWORD=bookstack
+      - TZ=Asia/Taipei
+      - MYSQL_DATABASE=bookstackapp
+      - MYSQL_USER=bookstack
+      - MYSQL_PASSWORD=bookstack
+    volumes:
+      - /bookstack/config:/config
+    restart: unless-stopped

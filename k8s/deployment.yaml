@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstack
+  namespace: bookstack
+  labels:
+    app: bookstack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookstack
+  template:
+    metadata:
+      labels:
+        app: bookstack
+    spec:
+      containers:
+        - name: bookstack
+          image: linuxserver/bookstack
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            - name: DB_DATABASE
+              value: bookstack
+            - name: DB_HOST
+              value: <<更換此處>>
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_PASSWORD
+              value: <<更換此處>>
+            - name: DB_USERNAME
+              value: <<更換此處>>
+            - name: MAIL_USERNAME
+              value: example@test.com
+            - name: MAIL_PASSWORD
+              value: mailpass
+            - name: MAIL_HOST
+              value: smtp.server.com
+            - name: MAIL_PORT
+              value: "465"
+            - name: MAIL_ENCRYPTION
+              value: SSL
+            - name: MAIL_DRIVER
+              value: smtp
+            - name: MAIL_FROM
+              value: no-reply@test.com
+            - name: APP_URL
+              value: https://<<更換此處>>
+            - name: APP_LANG
+              value: zh_TW
+            - name: APP_TIMEZONE
+              value: Asia/Taipei
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "512Mi"
